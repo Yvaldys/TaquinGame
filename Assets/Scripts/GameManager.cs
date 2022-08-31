@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public Transform _puzzlePanel;
     public Sprite[] _androidImages;
     public Sprite[] _iOSImages;
+    [Header("Preview elements")]
+    public Transform _puzzlePreviewPanel;
+    public Sprite _androidCenterimage;
+    public Sprite _iOSCenterimage;
     [Header("Timer parameters")]
     public int _timerInSeconds = 180;
     public Text _timerText;
@@ -59,11 +63,14 @@ public class GameManager : MonoBehaviour
 
         // check the OS.
         Sprite[] puzzleImages;
+        Sprite centerImage;
         #if UNITY_IOS
             puzzleImages = _iOSImages;
+            centerImage = _iOSCenterimage;
         #endif
         #if UNITY_ANDROID
             puzzleImages = _androidImages;
+            centerImage = _androidCenterimage;
         #endif
         /*if (Application.platform == RuntimePlatform.Android) {
             puzzleImages = _androidImages;
@@ -79,7 +86,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(string.Join(";", _currentGameState));
         }
         
-        // assign the images to the canvas.
+        // assign the images to the panels.
         for (int i=0; i < _currentGameState.Count; i++) {
 
             int pieceId = _currentGameState[i];
@@ -87,12 +94,15 @@ public class GameManager : MonoBehaviour
             // id 0 is the empty piece
             if (pieceId == 0) {
                 Instantiate(_emptyPiecePrefab, _puzzlePanel);
+                // use puzzle prefab for Preview instantiation, because we don't want the drag/drop mechanism
+                GameObject previewCenter = Instantiate(_puzzlePiecePrefab, _puzzlePreviewPanel);
+                previewCenter.GetComponent<Image>().sprite = centerImage;
             } else {
                 GameObject currentPiece = Instantiate(_puzzlePiecePrefab, _puzzlePanel);
+                GameObject currentpreviewPiece = Instantiate(_puzzlePiecePrefab, _puzzlePreviewPanel);
                 // for all other ids, modify the image
-                Image imageComponent = currentPiece.GetComponent<Image>();
-                imageComponent.enabled = true;
-                imageComponent.sprite = puzzleImages[pieceId-1];
+                currentPiece.GetComponent<Image>().sprite = puzzleImages[pieceId-1];
+                currentpreviewPiece.GetComponent<Image>().sprite = puzzleImages[pieceId-1];
             }
         }
     }
@@ -126,6 +136,12 @@ public class GameManager : MonoBehaviour
             _isGameStarted = true;
             _startTime = Time.time;
         }
+
+        // Update preview
+        Transform draggedPreviewPiece = _puzzlePreviewPanel.GetChild(draggedPieceIndex);
+        Transform centerPreviewPiece = _puzzlePreviewPanel.GetChild(emptyPieceIndex);
+        draggedPreviewPiece.SetSiblingIndex(emptyPieceIndex);
+        centerPreviewPiece.SetSiblingIndex(draggedPieceIndex);
 
         // Update game state
         int temp = _currentGameState[draggedPieceIndex];
