@@ -13,6 +13,7 @@ public class BestScoreDisplay : MonoBehaviour
 
     void Awake()
     {
+        // update the score on the Home page
         BestTime bestTime = SaveSystem.LoadBestTime();
         if (bestTime != null) {
             this.GetComponent<Text>().text = "Current best score : " + Utils.FormatTime(bestTime.bestTime);

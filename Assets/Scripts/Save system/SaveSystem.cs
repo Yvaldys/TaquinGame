@@ -6,6 +6,8 @@ using UnityEngine;
 
 public static class SaveSystem
 {
+    //** Save and Loaded game data **//
+    //Class used to serialize data and store it on the disk, through the serialazable class 'BestTime'
     #region Exposed
     
     #endregion

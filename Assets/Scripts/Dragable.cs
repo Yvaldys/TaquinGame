@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Dragable : MonoBehaviour
 {
+    // Class used on empty piece to trigger an event and perform the piece movement
     #region Exposed
     
     #endregion
@@ -36,6 +37,7 @@ public class Dragable : MonoBehaviour
 
     #region Main methods
 
+    // event called when a gameObject is dropped on it.
     public void Drop(BaseEventData eventData) {
         GameObject draggedSticker = ((PointerEventData)eventData).pointerDrag;
         int draggedPieceIndex = draggedSticker.transform.GetSiblingIndex();

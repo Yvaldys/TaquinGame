@@ -72,11 +72,6 @@ public class GameManager : MonoBehaviour
             puzzleImages = _androidImages;
             centerImage = _androidCenterimage;
         #endif
-        /*if (Application.platform == RuntimePlatform.Android) {
-            puzzleImages = _androidImages;
-        } else if(Application.platform == RuntimePlatform.IPhonePlayer) {
-
-        }*/
 
         // shuffle the puzzle and check if it is solvable.
         _currentGameState = ShuffleList(new List<int>{0,1,2,3,4,5,6,7,8});
