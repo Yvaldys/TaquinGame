@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class Dragable : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class Dragable : MonoBehaviour
         // switch transform index in hierarchy if they are neighbours.
 
         if (IsNeighbour(draggedPieceIndex, emptyPieceIndex)) {
+            draggedSticker.transform.GetComponent<RectTransform>().DOAnchorPosX(_transform.GetComponent<RectTransform>().anchoredPosition.x, 0.3f);
+            draggedSticker.transform.GetComponent<RectTransform>().DOAnchorPosY(_transform.GetComponent<RectTransform>().anchoredPosition.y, 0.3f);
             _transform.SetSiblingIndex(draggedPieceIndex);
             draggedSticker.transform.SetSiblingIndex(emptyPieceIndex);
 
