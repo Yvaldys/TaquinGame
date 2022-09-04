@@ -50,12 +50,17 @@ public class Dragable : MonoBehaviour
         if (IsNeighbour(draggedPieceIndex, emptyPieceIndex)) {
             draggedSticker.transform.GetComponent<RectTransform>().DOAnchorPosX(_transform.GetComponent<RectTransform>().anchoredPosition.x, 0.3f);
             draggedSticker.transform.GetComponent<RectTransform>().DOAnchorPosY(_transform.GetComponent<RectTransform>().anchoredPosition.y, 0.3f);
-            _transform.SetSiblingIndex(draggedPieceIndex);
-            draggedSticker.transform.SetSiblingIndex(emptyPieceIndex);
+            StartCoroutine(waitBeforeSwitch(draggedSticker, draggedPieceIndex, emptyPieceIndex));
 
             // call the event on Game Manager
             GameManager.Instance._onPieceMoved?.Invoke(draggedPieceIndex, emptyPieceIndex);
         }
+    }
+
+    IEnumerator waitBeforeSwitch(GameObject draggedSticker, int draggedPieceIndex, int emptyPieceIndex) {
+        yield return new WaitForSeconds(0.3f);
+        _transform.SetSiblingIndex(draggedPieceIndex);
+        draggedSticker.transform.SetSiblingIndex(emptyPieceIndex);
     }
 
     private bool IsNeighbour(int pieceIndex1, int pieceIndex2) {

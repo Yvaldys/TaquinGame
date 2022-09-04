@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             puzzleImages = _iOSImages;
             centerImage = _iOSCenterimage;
         #endif
-        #if UNITY_ANDROID
+        #if UNITY_ANDROID || UNITY_WEBGL
             puzzleImages = _androidImages;
             centerImage = _androidCenterimage;
         #endif
